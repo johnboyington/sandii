@@ -8,14 +8,15 @@ def iterate(n, f_i, N, sig, R):
     
     for i in range(n):
         b = (N**2 / sig**2)
-        a = ((R * f_i) / np.sum(R * f_i))
+        print(b)
+        a = ((R * f_i) / R.dot(f_i))
         W = a.T * b
         c = np.sum(W * np.log(N / np.sum(R * f_i)), axis=1) / np.sum(W, axis=1)
         f_i = f_i * np.exp(c)
     return f_i
 
 
-n = 1000
+n = 10
 R = np.array([[1, 2, 3, 2], [3, 2, 1, 1]])
 f_i = np.array([1, 1, 1, 1])
 N = np.array([2, 2.5])
