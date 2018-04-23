@@ -1,13 +1,16 @@
 import numpy as np
-import matplotlib.pyplot as plt
+from numpy.linalg import norm
 
-def iterate(n, f_i, N, sig, R):
+def iterate(f_i, N, sig, R, max_iter=1000, tol=1E-4):
     '''
     One iteration of the sand ii algorithm
     '''
     l_f = len(f_i)
     l_k = len(N)
-    for iteration in range(n):
+    iteration = 0
+    N0 = np.sum(R * f_i, axis=1)
+    error = norm(N0 - N, ord=2)
+    while iteration < max_iter and error > tol:
         f_i_new = f_i * 0
         for i in range(l_f):
             bot = 0
@@ -24,16 +27,11 @@ def iterate(n, f_i, N, sig, R):
             coef = np.exp(top / bot)
             f_i_new[i] = f_i[i] * coef
         f_i = f_i_new
+        N0 = np.sum(R * f_i, axis=1)
+        error = norm(N0 - N, ord=2)
+        iteration += 1
     return f_i
 
 
-n = 100
-R = np.array([[1, 2, 3, 2], [3, 2, 1, 1]], dtype=np.float64)
-f_i = np.array([1, 1, 1, 1], dtype=np.float64)
-N = np.array([2, 2.5], dtype=np.float64)
-sig = np.array([0.5, 0.5], dtype=np.float64)
 
-sol = iterate(n, f_i, N, sig, R)
-print(sol)
-print(R.dot(sol))
     
