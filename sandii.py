@@ -5,14 +5,24 @@ def iterate(n, f_i, N, sig, R):
     '''
     One iteration of the sand ii algorithm
     '''
-    
-    for i in range(n):
-        b = (N**2 / sig**2)
-        print(b)
-        a = ((R * f_i) / R.dot(f_i))
-        W = a.T * b
-        c = np.sum(W * np.log(N / np.sum(R * f_i)), axis=1) / np.sum(W, axis=1)
-        f_i = f_i * np.exp(c)
+    l_f = len(f_i)
+    l_k = len(N)
+    for iteration in range(n):
+        for i in range(l_f):
+            bot = 0
+            top = 0
+            for k in range(l_k):
+                # bot
+                c = (N[k]**2 / sig[k]**2)
+                a = (R[k] * f_i)
+                b = np.sum(R[k] * f_i)
+                bot += (a[k] / b) * c
+                # top
+                log_term = np.log(N[k] / b)
+                top += ((a[k] / b) * c) * log_term
+            c = np.exp(top / bot)
+            print(c)
+            f_i[i] *= c
     return f_i
 
 
