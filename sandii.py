@@ -1,6 +1,7 @@
 import numpy as np
 from numpy.linalg import norm
 
+
 def iterate(f_i, N, sig, R, max_iter=1000, tol=1E-4):
     '''
     One iteration of the sand ii algorithm
@@ -31,7 +32,3 @@ def iterate(f_i, N, sig, R, max_iter=1000, tol=1E-4):
         error = norm(N0 - N, ord=2)
         iteration += 1
     return f_i
-
-
-
-    
